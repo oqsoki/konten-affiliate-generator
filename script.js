@@ -1,51 +1,33 @@
-document.getElementById('generateBtn').addEventListener('click', () => {
-  const productLink = document.getElementById('productLink').value.trim();
-  if (!productLink) {
-    alert("Masukkan link produk Shopee terlebih dahulu.");
-    return;
-  }
+function generateContent() {
+    const url = document.getElementById("product-url").value.trim();
+    const contentDiv = document.getElementById("generated-content");
 
-  const content = `
-🔥 Promo Spesial Shopee! 🔥
+    if (!url) {
+        contentDiv.innerText = "Masukkan URL produk terlebih dahulu.";
+        return;
+    }
 
-Lagi cari produk keren? Cek produk ini sekarang juga di Shopee! Dijamin gak nyesel ✅
+    const konten = `🔥 Produk Laris di Shopee! 🔥\n\nCek produk ini sekarang juga sebelum kehabisan!\n👉 ${url} 👈\n\nJangan sampai menyesal!`;
+    contentDiv.innerText = konten;
+}
 
-📦 Klik link ini untuk cek produknya langsung:
-👉 ${productLink}
+function copyContent() {
+    const content = document.getElementById("generated-content").innerText;
+    if (!content) return;
 
-Buruan sebelum kehabisan! 🛒💨
-  `.trim();
+    navigator.clipboard.writeText(content).then(() => {
+        alert("Konten berhasil disalin!");
+    });
+}
 
-  document.getElementById('output').textContent = content;
-});
+function showImage() {
+    const imageUrl = document.getElementById("image-url").value.trim();
+    const imageDisplay = document.getElementById("image-display");
 
-document.getElementById('copyBtn').addEventListener('click', () => {
-  const output = document.getElementById('output').textContent;
-  if (!output) {
-    alert("Belum ada konten untuk disalin.");
-    return;
-  }
+    if (!imageUrl) {
+        imageDisplay.innerText = "Masukkan URL gambar terlebih dahulu.";
+        return;
+    }
 
-  navigator.clipboard.writeText(output).then(() => {
-    alert("Konten berhasil disalin!");
-  });
-});
-
-document.getElementById('generateImage').addEventListener('click', () => {
-  const imageUrl = document.getElementById('imageUrl').value.trim();
-  const imagePreview = document.getElementById('imagePreview');
-  imagePreview.innerHTML = ''; // clear sebelumnya
-
-  if (!imageUrl) {
-    alert("Masukkan URL gambar terlebih dahulu.");
-    return;
-  }
-
-  const img = document.createElement('img');
-  img.src = imageUrl;
-  img.alt = "Preview Gambar Produk";
-  img.onerror = () => {
-    imagePreview.innerHTML = "<p style='color:red;'>Gagal memuat gambar. Coba periksa URL-nya!</p>";
-  };
-  imagePreview.appendChild(img);
-});
+    imageDisplay.innerHTML = `<img src="\${imageUrl}" alt="Gambar Produk">`;
+}
