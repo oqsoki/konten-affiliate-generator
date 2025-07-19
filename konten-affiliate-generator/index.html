@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Konten Generator @digi.centers</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Konten Affiliate Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Konten Affiliate & Motivasi</h1>
-    <textarea id="inputText" placeholder="Tulis motivasi di sini..."></textarea>
-    <button id="btnManual">Generate Manual</button>
-    <button id="btnAuto">Generate Random Quote</button>
-    <div id="quoteArea"></div>
-    <button id="download">Download Gambar</button>
+    <h1>Konten Affiliate Generator</h1>
+    <p class="description">Buat konten promosi produk affiliate secara otomatis dan instan.</p>
+
+    <div class="form-group">
+      <label for="namaProduk">Nama Produk:</label>
+      <input type="text" id="namaProduk" placeholder="Contoh: Powerbank 10000mAh Kivee"/>
+    </div>
+
+    <div class="form-group">
+      <label for="fiturProduk">Fitur Unggulan:</label>
+      <textarea id="fiturProduk" placeholder="Contoh: Dual USB, Ringan, Ada Senter" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="linkAffiliate">Link Affiliate:</label>
+      <input type="url" id="linkAffiliate" placeholder="https://shopee.co.id/..."/>
+    </div>
+
+    <button onclick="generateKonten()">🎯 Generate Konten</button>
+
+    <div class="output" id="hasilKonten"></div>
+
+    <button class="copy-btn" onclick="copyToClipboard()">📋 Copy Konten</button>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
   <script src="script.js"></script>
 </body>
 </html>

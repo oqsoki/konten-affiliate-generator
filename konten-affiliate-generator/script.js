@@ -1,39 +1,36 @@
-const inputText = document.getElementById('inputText');
-const btnManual = document.getElementById('btnManual');
-const btnAuto = document.getElementById('btnAuto');
-const quoteArea = document.getElementById('quoteArea');
-const download = document.getElementById('download');
+function generateKonten() {
+  const nama = document.getElementById("namaProduk").value.trim();
+  const fitur = document.getElementById("fiturProduk").value.trim();
+  const link = document.getElementById("linkAffiliate").value.trim();
+  const output = document.getElementById("hasilKonten");
 
-const fetchRandomQuote = async () => {
-  const res = await fetch('https://type.fit/api/quotes');
-  const data = await res.json();
-  return data[Math.floor(Math.random() * data.length)].text;
-};
+  if (!nama || !fitur || !link) {
+    output.innerHTML = "<p style='color:red;'>Semua kolom wajib diisi.</p>";
+    return;
+  }
 
-const renderQuote = (text) => {
-  quoteArea.innerHTML = '';
-  const p = document.createElement('p');
-  p.textContent = text;
-  p.style.fontSize = '1.5em';
-  quoteArea.appendChild(p);
-};
+  const konten = `
+📢 ${nama} Lagi Viral Banget! 😍<br><br>
+Kenapa banyak orang suka?<br>
+✅ ${fitur.split(',').map(f => f.trim()).join('<br>✅ ')}<br><br>
+Dapatkan sekarang sebelum kehabisan! 🛒<br>
+👉 <a href="${link}" target="_blank">${link}</a><br><br>
+#ShopeeAffiliate #Promo #${nama.replace(/\s+/g, '')}
+  `;
 
-btnManual.addEventListener('click', () => {
-  const text = inputText.value.trim();
-  if (!text) { alert('Isi teks dulu ya 😊'); return; }
-  renderQuote(text);
-});
+  output.innerHTML = konten;
+}
 
-btnAuto.addEventListener('click', async () => {
-  const text = await fetchRandomQuote();
-  renderQuote(text);
-});
+function copyToClipboard() {
+  const tempElement = document.createElement("textarea");
+  tempElement.style.position = "fixed";
+  tempElement.style.opacity = "0";
+  tempElement.value = document.getElementById("hasilKonten").innerText;
 
-download.addEventListener('click', () => {
-  html2canvas(quoteArea).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'quote-digi-centers.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  });
-});
+  document.body.appendChild(tempElement);
+  tempElement.select();
+  document.execCommand("copy");
+  document.body.removeChild(tempElement);
+
+  alert("Konten berhasil disalin!");
+}
