@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konten Affiliate Generator</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Konten Affiliate Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>Konten Affiliate Generator</h1>
-        <label for="product-url">URL Produk Shopee:</label>
-        <input type="text" id="product-url" placeholder="Masukkan URL Produk Shopee">
+  <div class="container">
+    <h1>Konten Affiliate Generator</h1>
 
-        <label for="image-url">URL Gambar Produk:</label>
-        <input type="text" id="image-url" placeholder="Masukkan URL Gambar Produk">
+    <label for="productName">Nama Produk:</label>
+    <input type="text" id="productName" placeholder="Contoh: Earphone KZ EDX With Mic"/>
 
-        <div class="buttons">
-            <button onclick="generateContent()">Generate Konten</button>
-            <button onclick="copyContent()">Copy Konten</button>
-        </div>
+    <label for="affiliateLink">Link Affiliate Produk Shopee:</label>
+    <input type="text" id="affiliateLink" placeholder="https://shope.ee/abc123"/>
 
-        <div id="generated-content">Konten akan muncul di sini...</div>
+    <label for="imageUrl">URL Gambar Produk (opsional):</label>
+    <input type="text" id="imageUrl" placeholder="https://cf.shopee.co.id/file/xyz123.jpg"/>
 
-        <div class="image-section">
-            <button onclick="showImage()">Tampilkan Gambar</button>
-            <div id="image-display">Gambar akan tampil di sini</div>
-        </div>
+    <div class="buttons">
+      <button onclick="generateContent()">Generate Konten</button>
+      <button onclick="copyContent()">Copy Konten</button>
     </div>
 
-    <script src="script.js"></script>
+    <div class="output">
+      <h3>Hasil Konten:</h3>
+      <textarea id="resultContent" readonly></textarea>
+    </div>
+
+    <div class="image-preview">
+      <h3>Gambar Produk:</h3>
+      <img id="productImage" src="" alt="Gambar akan tampil di sini"/>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
