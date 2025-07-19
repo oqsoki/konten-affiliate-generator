@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Konten Affiliate Generator</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Affiliate Content Generator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Konten Affiliate Generator</h1>
+  <div class="container">
+    <h1>Affiliate Content Generator</h1>
 
-  <textarea id="output" placeholder="Konten akan muncul di sini..." readonly></textarea>
-  <div class="button-group">
-    <button id="generateBtn">Generate Konten</button>
-    <button id="copyBtn">Copy Konten</button>
-    <button id="generateImgBtn">Generate Gambar</button>
-  </div>
+    <label for="productLink">Link Produk Shopee:</label>
+    <input type="text" id="productLink" placeholder="Tempel link produk Shopee Anda di sini" />
 
-  <div class="image-preview">
-    <img id="generatedImg" src="" alt="Gambar akan tampil di sini">
+    <label for="productImage">URL Gambar Produk:</label>
+    <input type="text" id="productImage" placeholder="Tempel URL gambar produk di sini" />
+    <div class="image-preview" id="imagePreview"></div>
+
+    <button id="generateContent">Generate Konten</button>
+    <button id="copyContent">Copy Konten</button>
+
+    <h2>Hasil Konten</h2>
+    <textarea id="resultContent" readonly></textarea>
   </div>
 
   <script src="script.js"></script>
