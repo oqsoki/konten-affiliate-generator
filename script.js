@@ -1,42 +1,44 @@
-document.getElementById('generateImageBtn').addEventListener('click', () => {
-  const produk = document.getElementById('productName').value;
-  const fitur = document.getElementById('productFeatures').value.split(',');
-  const link = document.getElementById('affiliateLink').value;
+document.getElementById('generateBtn').addEventListener('click', function () {
+  const product = document.getElementById('productName').value.trim();
+  const features = document.getElementById('features').value.trim();
+  const link = document.getElementById('affiliateLink').value.trim();
 
-  const canvas = document.getElementById('promoCanvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = 800;
-  canvas.height = 600;
+  if (!product || !features || !link) {
+    alert('Silakan isi semua kolom terlebih dahulu!');
+    return;
+  }
 
-  // Background
-  ctx.fillStyle = '#f2f2f2';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const featureList = features.split(',').map(f => `✅ ${f.trim()}`).join('\n');
 
-  // Judul
-  ctx.fillStyle = '#333';
-  ctx.font = 'bold 30px Arial';
-  ctx.fillText('📢 PROMO AFFILIATE', 40, 60);
+  const result = `📢 ${product} Lagi Viral Banget! 😍
 
-  // Nama Produk
-  ctx.font = 'bold 24px Arial';
-  ctx.fillText(produk, 40, 120);
+Kenapa banyak orang suka?
+${featureList}
 
-  // Fitur
-  ctx.font = '20px Arial';
-  ctx.fillStyle = '#000';
-  fitur.forEach((f, i) => {
-    ctx.fillText('✅ ' + f.trim(), 40, 170 + i * 30);
-  });
+Dapatkan sekarang sebelum kehabisan! 🛒
+👉 ${link}
 
-  // Link
-  ctx.fillStyle = 'blue';
-  ctx.font = '16px Arial';
-  ctx.fillText(link, 40, 300);
+#ShopeeAffiliate #Promo #${product.replace(/\s+/g, '')}`;
 
-  // Tampilkan canvas dan buat download link
-  canvas.style.display = 'block';
-  const downloadLink = document.getElementById('downloadLink');
-  downloadLink.href = canvas.toDataURL();
-  downloadLink.download = 'konten-affiliate.png';
-  downloadLink.style.display = 'inline-block';
+  document.getElementById('resultText').value = result;
+});
+
+document.getElementById('copyBtn').addEventListener('click', function () {
+  const textArea = document.getElementById('resultText');
+  textArea.select();
+  document.execCommand('copy');
+  alert('Konten berhasil disalin!');
+});
+
+document.getElementById('generateImageBtn').addEventListener('click', function () {
+  const product = document.getElementById('productName').value.trim();
+  if (!product) {
+    alert("Masukkan nama produk terlebih dahulu!");
+    return;
+  }
+
+  const keyword = encodeURIComponent(product);
+  const imageUrl = `https://source.unsplash.com/600x400/?${keyword}`;
+
+  document.getElementById('generatedImage').src = imageUrl;
 });
