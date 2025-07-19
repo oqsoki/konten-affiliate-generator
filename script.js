@@ -1,36 +1,42 @@
-function generateKonten() {
-  const nama = document.getElementById("namaProduk").value.trim();
-  const fitur = document.getElementById("fiturProduk").value.trim();
-  const link = document.getElementById("linkAffiliate").value.trim();
-  const output = document.getElementById("hasilKonten");
+document.getElementById('generateImageBtn').addEventListener('click', () => {
+  const produk = document.getElementById('productName').value;
+  const fitur = document.getElementById('productFeatures').value.split(',');
+  const link = document.getElementById('affiliateLink').value;
 
-  if (!nama || !fitur || !link) {
-    output.innerHTML = "<p style='color:red;'>Semua kolom wajib diisi.</p>";
-    return;
-  }
+  const canvas = document.getElementById('promoCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = 800;
+  canvas.height = 600;
 
-  const konten = `
-📢 ${nama} Lagi Viral Banget! 😍<br><br>
-Kenapa banyak orang suka?<br>
-✅ ${fitur.split(',').map(f => f.trim()).join('<br>✅ ')}<br><br>
-Dapatkan sekarang sebelum kehabisan! 🛒<br>
-👉 <a href="${link}" target="_blank">${link}</a><br><br>
-#ShopeeAffiliate #Promo #${nama.replace(/\s+/g, '')}
-  `;
+  // Background
+  ctx.fillStyle = '#f2f2f2';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  output.innerHTML = konten;
-}
+  // Judul
+  ctx.fillStyle = '#333';
+  ctx.font = 'bold 30px Arial';
+  ctx.fillText('📢 PROMO AFFILIATE', 40, 60);
 
-function copyToClipboard() {
-  const tempElement = document.createElement("textarea");
-  tempElement.style.position = "fixed";
-  tempElement.style.opacity = "0";
-  tempElement.value = document.getElementById("hasilKonten").innerText;
+  // Nama Produk
+  ctx.font = 'bold 24px Arial';
+  ctx.fillText(produk, 40, 120);
 
-  document.body.appendChild(tempElement);
-  tempElement.select();
-  document.execCommand("copy");
-  document.body.removeChild(tempElement);
+  // Fitur
+  ctx.font = '20px Arial';
+  ctx.fillStyle = '#000';
+  fitur.forEach((f, i) => {
+    ctx.fillText('✅ ' + f.trim(), 40, 170 + i * 30);
+  });
 
-  alert("Konten berhasil disalin!");
-}
+  // Link
+  ctx.fillStyle = 'blue';
+  ctx.font = '16px Arial';
+  ctx.fillText(link, 40, 300);
+
+  // Tampilkan canvas dan buat download link
+  canvas.style.display = 'block';
+  const downloadLink = document.getElementById('downloadLink');
+  downloadLink.href = canvas.toDataURL();
+  downloadLink.download = 'konten-affiliate.png';
+  downloadLink.style.display = 'inline-block';
+});

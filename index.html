@@ -3,112 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Konten Affiliate Generator</title>
+  <title>Konten Affiliate Generator v2</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
       padding: 20px;
+      background: #f9f9f9;
     }
-    .container {
-      max-width: 600px;
+    h1 {
+      text-align: center;
+    }
+    table {
       margin: auto;
-      background-color: #fff;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background: white;
     }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
+    textarea {
+      width: 100%;
+      height: 120px;
+      margin-top: 10px;
+      padding: 10px;
+      box-sizing: border-box;
     }
     input[type="text"] {
       width: 100%;
       padding: 10px;
+      margin-bottom: 10px;
       box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 5px;
     }
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-    }
-    .button-group button {
-      flex: 1;
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #007bff;
-      color: white;
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
       border: none;
-      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
     }
-    .button-group button:hover {
-      background-color: #0056b3;
+    button:hover {
+      background-color: #45a049;
     }
-    .output textarea {
-      width: 100%;
-      height: 150px;
-      padding: 10px;
-      box-sizing: border-box;
-      border-radius: 5px;
+    #preview-container {
+      margin-top: 20px;
+      text-align: center;
+    }
+    #image-preview {
+      margin-top: 10px;
       border: 1px solid #ccc;
-      resize: vertical;
+      display: inline-block;
+      padding: 10px;
+      background: #fff;
+    }
+    .content-box {
+      width: 600px;
+      padding: 20px;
+      background-color: #fffbe6;
+      border: 2px dashed #f90;
+      border-radius: 10px;
+      font-size: 18px;
+      line-height: 1.5em;
+      text-align: left;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Konten Affiliate Generator</h1>
-    <p>Buat konten promosi produk affiliate secara otomatis dan instan.</p>
 
-    <div class="form-group">
-      <label for="productName">Nama Produk:</label>
-      <input type="text" id="productName" placeholder="Contoh: Powerbank 10000mAh Kivee">
-    </div>
+  <h1>konten-affiliate-generator v2</h1>
+  <h3 style="text-align:center;">Aplikasi Untuk Membuat Konten Secara Otomatis</h3>
 
-    <div class="form-group">
-      <label for="features">Fitur Unggulan:</label>
-      <input type="text" id="features" placeholder="Contoh: Dual USB, Ringan, Ada Senter">
-    </div>
+  <table>
+    <tr>
+      <td><label>Nama Produk:</label></td>
+      <td><input type="text" id="product-name" placeholder="Contoh: Powerbank Kivee 10000 mAh"></td>
+    </tr>
+    <tr>
+      <td><label>Fitur Produk:</label></td>
+      <td><input type="text" id="product-feature" placeholder="Contoh: Ringan, Ada center, Fast Charging"></td>
+    </tr>
+    <tr>
+      <td><label>Link Shopee Affiliate:</label></td>
+      <td><input type="text" id="affiliate-link" placeholder="https://s.shopee.co.id/..." /></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button onclick="generateContent()">🎯 Generate Konten</button>
+        <button onclick="copyContent()">📋 Copy Konten</button>
+        <button onclick="generateImage()">🎨 Generate Gambar</button>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <textarea id="output" placeholder="Hasil generate konten akan muncul di sini..."></textarea>
+      </td>
+    </tr>
+  </table>
 
-    <div class="form-group">
-      <label for="affiliateLink">Link Affiliate:</label>
-      <input type="text" id="affiliateLink" placeholder="https://shopee.co.id/...">
+  <div id="preview-container">
+    <div id="image-preview">
+      <div id="preview" class="content-box">
+        <!-- hasil konten untuk gambar -->
+        <p id="preview-text"></p>
+      </div>
     </div>
-
-    <div class="button-group">
-      <button onclick="generateContent()">🎯 Generate Konten</button>
-      <button onclick="copyContent()">📋 Copy Konten</button>
-    </div>
-
-    <div class="output">
-      <textarea id="outputText" readonly></textarea>
-    </div>
+    <button onclick="downloadImage()">⬇️ Download Gambar</button>
   </div>
 
   <script>
     function generateContent() {
-      const productName = document.getElementById('productName').value;
-      const features = document.getElementById('features').value;
-      const affiliateLink = document.getElementById('affiliateLink').value;
+      const name = document.getElementById("product-name").value;
+      const features = document.getElementById("product-feature").value.split(",");
+      const link = document.getElementById("affiliate-link").value;
 
-      const output = `Lagi cari ${productName}?\n\nCek fitur unggulannya: ${features}\n\nBisa langsung beli di sini: ${affiliateLink}\n\n#ShopeeAffiliate #PromoShopee #RekomendasiProduk`;
+      let featureList = features.map(f => `✅ ${f.trim()}`).join("\n");
 
-      document.getElementById('outputText').value = output;
+      const output = `📢 ${name} Lagi Viral Banget! 😍\n\nKenapa banyak orang suka?\n${featureList}\n\nDapatkan sekarang sebelum kehabisan! 🛒\n👉 ${link}\n\n#ShopeeAffiliate #Promo #${name.replace(/\s+/g, '')}`;
+
+      document.getElementById("output").value = output;
+      document.getElementById("preview-text").innerText = output;
     }
 
     function copyContent() {
-      const outputText = document.getElementById('outputText');
-      outputText.select();
-      document.execCommand('copy');
-      alert('Konten berhasil disalin!');
+      const output = document.getElementById("output");
+      output.select();
+      document.execCommand("copy");
+      alert("Konten berhasil disalin!");
+    }
+
+    function generateImage() {
+      html2canvas(document.getElementById("preview")).then(canvas => {
+        const img = document.createElement("img");
+        img.src = canvas.toDataURL("image/png");
+        const previewContainer = document.getElementById("preview-container");
+        previewContainer.appendChild(img);
+      });
+    }
+
+    function downloadImage() {
+      html2canvas(document.getElementById("preview")).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'konten-affiliate.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
     }
   </script>
+
 </body>
 </html>
