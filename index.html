@@ -1,38 +1,114 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Konten Affiliate Generator</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .button-group button {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .button-group button:hover {
+      background-color: #0056b3;
+    }
+    .output textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <h1>Konten Affiliate Generator</h1>
-    <p class="description">Buat konten promosi produk affiliate secara otomatis dan instan.</p>
+    <p>Buat konten promosi produk affiliate secara otomatis dan instan.</p>
 
     <div class="form-group">
-      <label for="namaProduk">Nama Produk:</label>
-      <input type="text" id="namaProduk" placeholder="Contoh: Powerbank 10000mAh Kivee"/>
+      <label for="productName">Nama Produk:</label>
+      <input type="text" id="productName" placeholder="Contoh: Powerbank 10000mAh Kivee">
     </div>
 
     <div class="form-group">
-      <label for="fiturProduk">Fitur Unggulan:</label>
-      <textarea id="fiturProduk" placeholder="Contoh: Dual USB, Ringan, Ada Senter" rows="3"></textarea>
+      <label for="features">Fitur Unggulan:</label>
+      <input type="text" id="features" placeholder="Contoh: Dual USB, Ringan, Ada Senter">
     </div>
 
     <div class="form-group">
-      <label for="linkAffiliate">Link Affiliate:</label>
-      <input type="url" id="linkAffiliate" placeholder="https://shopee.co.id/..."/>
+      <label for="affiliateLink">Link Affiliate:</label>
+      <input type="text" id="affiliateLink" placeholder="https://shopee.co.id/...">
     </div>
 
-    <button onclick="generateKonten()">🎯 Generate Konten</button>
+    <div class="button-group">
+      <button onclick="generateContent()">🎯 Generate Konten</button>
+      <button onclick="copyContent()">📋 Copy Konten</button>
+    </div>
 
-    <div class="output" id="hasilKonten"></div>
-
-    <button class="copy-btn" onclick="copyToClipboard()">📋 Copy Konten</button>
+    <div class="output">
+      <textarea id="outputText" readonly></textarea>
+    </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    function generateContent() {
+      const productName = document.getElementById('productName').value;
+      const features = document.getElementById('features').value;
+      const affiliateLink = document.getElementById('affiliateLink').value;
+
+      const output = `Lagi cari ${productName}?\n\nCek fitur unggulannya: ${features}\n\nBisa langsung beli di sini: ${affiliateLink}\n\n#ShopeeAffiliate #PromoShopee #RekomendasiProduk`;
+
+      document.getElementById('outputText').value = output;
+    }
+
+    function copyContent() {
+      const outputText = document.getElementById('outputText');
+      outputText.select();
+      document.execCommand('copy');
+      alert('Konten berhasil disalin!');
+    }
+  </script>
 </body>
 </html>
