@@ -1,44 +1,44 @@
-document.getElementById('generateBtn').addEventListener('click', function () {
-  const product = document.getElementById('productName').value.trim();
-  const features = document.getElementById('features').value.trim();
-  const link = document.getElementById('affiliateLink').value.trim();
+function generateContent() {
+  const productName = document.getElementById("productName").value.trim();
+  const features = document.getElementById("features").value.trim();
+  const affiliateLink = document.getElementById("affiliateLink").value.trim();
 
-  if (!product || !features || !link) {
-    alert('Silakan isi semua kolom terlebih dahulu!');
+  if (!productName || !features || !affiliateLink) {
+    alert("Harap lengkapi semua kolom input.");
     return;
   }
 
-  const featureList = features.split(',').map(f => `✅ ${f.trim()}`).join('\n');
+  const featureList = features
+    .split(",")
+    .map((item) => `✅ ${item.trim()}`)
+    .join("\n");
 
-  const result = `📢 ${product} Lagi Viral Banget! 😍
+  const content = `📢 ${productName} Lagi Viral Banget! 😍\n\nKenapa banyak orang suka?\n${featureList}\n\nDapatkan sekarang sebelum kehabisan! 🛒\n👉 ${affiliateLink}\n\n#ShopeeAffiliate #Promo #${productName.split(" ")[0]}`;
 
-Kenapa banyak orang suka?
-${featureList}
+  document.getElementById("result").value = content;
+}
 
-Dapatkan sekarang sebelum kehabisan! 🛒
-👉 ${link}
+function copyContent() {
+  const result = document.getElementById("result");
+  if (!result.value) {
+    alert("Belum ada konten untuk disalin.");
+    return;
+  }
+  result.select();
+  document.execCommand("copy");
+  alert("Konten berhasil disalin!");
+}
 
-#ShopeeAffiliate #Promo #${product.replace(/\s+/g, '')}`;
-
-  document.getElementById('resultText').value = result;
-});
-
-document.getElementById('copyBtn').addEventListener('click', function () {
-  const textArea = document.getElementById('resultText');
-  textArea.select();
-  document.execCommand('copy');
-  alert('Konten berhasil disalin!');
-});
-
-document.getElementById('generateImageBtn').addEventListener('click', function () {
-  const product = document.getElementById('productName').value.trim();
-  if (!product) {
-    alert("Masukkan nama produk terlebih dahulu!");
+function generateImage() {
+  const productName = document.getElementById("productName").value.trim();
+  if (!productName) {
+    alert("Masukkan nama produk terlebih dahulu.");
     return;
   }
 
-  const keyword = encodeURIComponent(product);
-  const imageUrl = `https://source.unsplash.com/600x400/?${keyword}`;
+  const query = encodeURIComponent(productName);
+  const imageUrl = `https://source.unsplash.com/600x400/?${query}`;
 
-  document.getElementById('generatedImage').src = imageUrl;
-});
+  const imageDiv = document.getElementById("imageResult");
+  imageDiv.innerHTML = `<img src="${imageUrl}" alt="Gambar ${productName}" />`;
+}

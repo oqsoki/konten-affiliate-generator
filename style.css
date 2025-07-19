@@ -1,17 +1,16 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f2f2f2;
+  background-color: #f4f6f8;
   padding: 20px;
-  margin: 0;
 }
 
 .container {
   max-width: 600px;
+  background-color: #fff;
   margin: auto;
-  background: white;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 h1 {
@@ -19,18 +18,20 @@ h1 {
   color: #333;
 }
 
-label {
-  display: block;
-  margin-top: 15px;
-  color: #555;
-}
-
-input {
+input[type="text"] {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
+  margin: 8px 0 16px;
+  box-sizing: border-box;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+  color: #444;
 }
 
 .button-group {
@@ -38,43 +39,36 @@ input {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 button {
   flex: 1;
   padding: 10px;
-  background-color: #007bff;
-  color: white;
   border: none;
-  border-radius: 6px;
+  background-color: #0057a8;
+  color: white;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #004080;
 }
 
-textarea {
+#result {
   width: 100%;
-  margin-top: 20px;
-  height: 140px;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  resize: none;
-  background: #f9f9f9;
-}
-
-#imageContainer {
-  margin-top: 20px;
-  text-align: center;
-}
-
-#imageContainer img {
-  max-width: 100%;
-  height: auto;
   border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 14px;
+  resize: none;
+}
+
+#imageResult img {
+  width: 100%;
+  border-radius: 10px;
   margin-top: 10px;
 }
