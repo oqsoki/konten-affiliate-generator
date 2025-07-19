@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <!-- Head content tetap -->
+</head>
+<body>
+  <!-- Body content tetap -->
+
+<div id="resultsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4"></div>
+
+<script>
+  // Tambahkan bagian ini di akhir script JS:
+
+  /**
+   * Integrasi Real-Time Komisi Produk Shopee Affiliate
+   * (Diperlukan cookies dari akun Shopee Affiliate Anda)
+   */
+
+  const cookiesShopee = "_ga=GA1.3.1795187175.1750692432; SPC_EC=.YUpqWFFBRGNtTHBaUDVWNBvYti9nz9Nu3Ah4XgcDYed8yJPBob1BoznVkezOZ5Ii6STebfjg5huuagj5yefzHMTNVowANc56UFrH+5OmCuGwuhPB4FtLiHSYVy2zUVI1Ryjl7dsLQkJFumZ9WjQNaIy5xZvBAhH4qpaSmpyN+ShEYfmjy16caTPLHaQ9wXQxMb17V8UWOZTK2QAVQ+u9h1flErD+ju4QsGy7Eb2LYMrdZS0vtkHh2TfcQ1skHkBa; SPC_R_T_ID=qgZLwX6EYWEARBmMIBQgRfZ6GSwcQrkt56UDRJ50p6Jd4ab5RSpPY5xHDNw8g8e5Vh/vTuhSCdeKjd8p77SH2g5BCEfM+gF9oBR17R//QrAjdv907VdGU6UT5+CC4tJWmxO9KCdaufBPQGA6x2RrbtYOVr218CpVf8Ww78CO8wo=; SPC_R_T_IV=VmhmN3RNY0NSY25ibzFFUQ==";
+
+  async function fetchTrendingNgontenProducts() {
+    const keyword = "alat ngonten";
+    const apiUrl = `https://shopee.co.id/api/v4/search/search_items?by=sales&keyword=${encodeURIComponent(keyword)}&limit=10&newest=0&order=desc&page_type=search`;
+    const response = await fetch(apiUrl, {
+      headers: {
+        'cookie': cookiesShopee,
+        'accept': '*/*'
+      }
+    });
+    const json = await response.json();
+    return json?.items?.filter(item => (item.item_basic.price / 100000) * 0.07 >= 5000) || [];
+  }
+
+  function displayProducts(products) {
+    const resultsContainer = document.getElementById("resultsContainer");
+    resultsContainer.innerHTML = "";
+
+    if (products.length === 0) {
+      resultsContainer.innerHTML = `<p class="text-center text-gray-500 col-span-full">Tidak ada produk dengan komisi di atas Rp5.000</p>`;
+      return;
+    }
+
+    for (const item of products) {
+      const name = item.item_basic.name;
+      const price = item.item_basic.price / 100000;
+      const rawPrice = price.toLocaleString("id-ID", { style: 'currency', currency: 'IDR' });
+      const estimatedCommission = `Rp ${(price * 0.07).toLocaleString("id-ID", { maximumFractionDigits: 0 })}`;
+      const searchLink = `https://shopee.co.id/product/${item.item_basic.shopid}/${item.item_basic.itemid}`;
+
+      const card = `
+        <div class="card bg-white dark:bg-gray-800 rounded-xl overflow-hidden p-6 flex flex-col">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">${name}</h3>
+          <div class="mt-auto">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Estimasi Komisi</span>
+              <span class="text-sm font-semibold text-green-600 dark:text-green-400">${estimatedCommission}</span>
+            </div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Harga</span>
+              <span class="text-sm font-semibold text-orange-600">${rawPrice}</span>
+            </div>
+            <a href="${searchLink}" target="_blank" class="copy-btn w-full bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300 font-semibold py-2 px-4 rounded-lg flex items-center justify-center hover:bg-orange-200 dark:hover:bg-orange-900/80 transition-colors">
+              Kunjungi Produk
+            </a>
+          </div>
+        </div>
+      `;
+
+      resultsContainer.innerHTML += card;
+    }
+  }
+
+  // Jalankan saat halaman dimuat
+  (async () => {
+    const trendingProducts = await fetchTrendingNgontenProducts();
+    displayProducts(trendingProducts);
+  })();
+</script>
+</body>
+</html>
